@@ -1,0 +1,23 @@
+{
+	"name": "tjm/file-tasks"
+	,"description": "File-system tasks for 'tjm/task-runner'"
+	,"authors": [
+		{
+			"name": "Toby Mackenzie"
+			,"email": "public@tobymackenzie.com"
+			,"homepage": "https://www.tobymackenzie.com"
+		}
+	]
+	,"license": "0BSD"
+	,"autoload": {
+		"psr-4": {
+			"TJM\\FileTasks\\": "src"
+		}
+	}
+	,"require": {
+		"php": ">=5.4"
+		,"tjm/files": "^0.0.1"
+		,"tjm/shell-runner": "^0.0.4"
+		,"tjm/task-runner": "^0.0.1"
+	}
+}

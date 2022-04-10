@@ -27,5 +27,6 @@ class SymlinkTaskTest extends TestCase{
 		$this->assertEquals('AAAAA', file_get_contents('b'), 'Symlink file should have same contents as target file.');
 		file_put_contents('a', 'BBBBB');
 		$this->assertEquals('BBBBB', file_get_contents('b'), 'Symlink file should have same contents as target file.');
+		$this->assertEquals('./a', readlink('b'), 'Symlink path should be relative.');
 	}
 }

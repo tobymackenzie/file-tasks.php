@@ -14,13 +14,11 @@ class SymlinkTaskTest extends TestCase{
 		exec('rm -r ' . __DIR__ . '/tmp/*');
 		rmdir(__DIR__ . '/tmp');
 	}
-	public function testCreateSymlink(){
+	public function testCreateSimpleSymlink(){
 		$count = count(glob('./*'));
 		if($count !== 0){
 			throw new Except("Empty dir should have no files in it");
 		}
-
-		//--create simple symlink
 		file_put_contents('a', 'AAAAA');
 		(new SymlinkTask('./a', './b'))->do();
 		$this->assertEquals(2, count(glob('./*')), "Creating a symlink should increase count of files by one");
@@ -28,5 +26,16 @@ class SymlinkTaskTest extends TestCase{
 		file_put_contents('a', 'BBBBB');
 		$this->assertEquals('BBBBB', file_get_contents('b'), 'Symlink file should have same contents as target file.');
 		$this->assertEquals('./a', readlink('b'), 'Symlink path should be relative.');
+	}
+	public function testCreateNestedSymlink(){
+		file_put_contents('a', 'AAAAA');
+		mkdir('b');
+		chdir('b');
+		(new SymlinkTask('../a', './c'))->do();
+		$this->assertEquals(1, count(glob('./*')), "Creating a symlink should increase count of files by one");
+		$this->assertEquals('AAAAA', file_get_contents('c'), 'Symlink file should have same contents as target file.');
+		file_put_contents('../a', 'BBBBB');
+		$this->assertEquals('BBBBB', file_get_contents('c'), 'Symlink file should have same contents as target file.');
+		$this->assertEquals('../a', readlink('c'), 'Symlink path should be relative.');
 	}
 }

@@ -22,9 +22,8 @@ class SymlinkTaskTest extends TestCase{
 
 		//--create simple symlink
 		file_put_contents('a', 'AAAAA');
-		$i = 1;
 		(new SymlinkTask('./a', './b'))->do();
-		$this->assertEquals(++$i, count(glob('./*')), "Creating a symlink should increase count of files by one");
+		$this->assertEquals(2, count(glob('./*')), "Creating a symlink should increase count of files by one");
 		$this->assertEquals('AAAAA', file_get_contents('b'), 'Symlink file should have same contents as target file.');
 		file_put_contents('a', 'BBBBB');
 		$this->assertEquals('BBBBB', file_get_contents('b'), 'Symlink file should have same contents as target file.');
